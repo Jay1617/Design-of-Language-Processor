@@ -4,74 +4,66 @@
 #include <set>
 using namespace std;
 
-bool isValid(int noOfSymbol, string inputSymbols, int noOfState, int initialState, set<int> acceptingStates, string inputString) {
-    bool checkStringContainInputSymbol = false;
-
-    for (int i = 0; i < inputString.length(); i++) {
-        for (int j = 0; j < inputSymbols.length(); j++) {
-            if (inputString[i] == inputSymbols[j]) {
-                checkStringContainInputSymbol = true;
-                break;
-            }
-        }
-        if (!checkStringContainInputSymbol) {
+bool isValid(string symbols, int states, int start, set<int> acceptStates, string input) {
+    for (char ch : input) {
+        if (symbols.find(ch) == string::npos) {
             return false;
         }
-        checkStringContainInputSymbol = false;
     }
 
-    map<int, map<char, int>> transitionTable;
-    for (int i = 0; i < noOfState; i++) {
-        for (int j = 0; j < inputSymbols.length(); j++) {
-            int tempState;
-            cout << "Enter next state if current state is " << (i + 1) << " and input symbol is " << inputSymbols[j] << ": ";
-            cin >> tempState;
-            transitionTable[i + 1][inputSymbols[j]] = tempState;
+    map<int, map<char, int>> transitions;
+    for (int i = 0; i < states; i++) {
+        for (char sym : symbols) {
+            int nextState;
+            cout << "Next state for state " << (i + 1) << " and symbol " << sym << ": ";
+            cin >> nextState;
+            transitions[i + 1][sym] = nextState;
         }
     }
 
-    int currentState = initialState;
-    for (int i = 0; i < inputString.length(); i++) {
-        char symbol = inputString[i];
-        if (transitionTable[currentState].count(symbol)) {
-            currentState = transitionTable[currentState][symbol];
+    int currState = start;
+    for (char ch : input) {
+        if (transitions[currState].count(ch)) {
+            currState = transitions[currState][ch];
         } else {
             return false;
         }
     }
 
-    return acceptingStates.count(currentState);
+    return acceptStates.count(currState);
 }
-int main() {
-    int noOfSymbol, noOfState, initialState, noOfAcceptingStates;
-    string inputSymbols, inputString;
-    set<int> acceptingStates;
 
-    cout << "Enter number of input symbols: ";
-    cin >> noOfSymbol;
-    cout << "Enter input symbols: ";
-    cin >> inputSymbols;
-    cout << "Enter number of states: ";
-    cin >> noOfState;
-    cout << "Enter initial state: ";
-    cin >> initialState;
-    cout << "Enter number of accepting states: ";
-    cin >> noOfAcceptingStates;
-    cout << "Enter accepting states: ";
-    for (int i = 0; i < noOfAcceptingStates; i++) {
+int main() {
+    int symbolsCount, states, start, acceptCount;
+    string symbols, input;
+    set<int> acceptStates;
+
+    cout << "Number of symbols: ";
+    cin >> symbolsCount;
+    cout << "Symbols: ";
+    cin >> symbols;
+    cout << "Number of states: ";
+    cin >> states;
+    cout << "Start state: ";
+    cin >> start;
+    cout << "Accepting states count: ";
+    cin >> acceptCount;
+
+    cout << "Accepting states: ";
+    for (int i = 0; i < acceptCount; i++) {
         int state;
         cin >> state;
-        acceptingStates.insert(state);
+        acceptStates.insert(state);
     }
-    cout << "Enter input string: ";
-    cin >> inputString;
 
-    if (isValid(noOfSymbol, inputSymbols, noOfState, initialState, acceptingStates, inputString)) {
-        cout << "The input string is valid." << endl;
+    cout << "Input string: ";
+    cin >> input;
+
+    if (isValid(symbols, states, start, acceptStates, input)) {
+        cout << "Valid string." << endl;
     } else {
-        cout << "The input string is invalid." << endl;
+        cout << "Invalid string." << endl;
     }
 
     return 0;
 }
-    
