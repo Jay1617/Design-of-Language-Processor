@@ -1,54 +1,37 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct {
-    int isValid;
-    char reason[100];
-} Result;
-
-Result solve(char *s)
-{
-    int n = strlen(s);
-    if (n < 2) {
-        Result res = {0, "Invalid String: Length must be at least 2."};
-        return res;
+int checkString(char *input) {
+    int len = strlen(input);
+    if (len < 2) {
+        return 0;
     }
 
-    int b_count = 0;
-    for (int i = 0; i < n; i++) {
-        if (s[i] != 'a' && s[i] != 'b') {
-            Result res = {0, "String contains invalid characters."};
-            return res;
+    int countB = 0;
+    for (int i = 0; i < len; i++) {
+        if (input[i] != 'a' && input[i] != 'b') {
+            return 0;
         }
-        if (s[i] == 'b') {
-            b_count++;
-            if (b_count > 2 || (b_count == 2 && i < n - 2)) {
-                Result res = {0, "Only two 'b's are allowed, and they must be at the end."};
-                return res;
+        if (input[i] == 'b') {
+            countB++;
+            if (countB > 2 || (countB == 2 && i < len - 2)) {
+                return 0;
             }
         }
     }
 
-    if (b_count == 2 && s[n - 1] == 'b' && s[n - 2] == 'b') {
-        Result res = {1, "Valid String"};
-        return res;
-    }
-
-    Result res = {0, "Invalid string: The string must contain exactly two 'b's at the end."};
-    return res;
+    return countB == 2 && input[len - 1] == 'b' && input[len - 2] == 'b';
 }
 
-int main()
-{
-    char s[100];
-    printf("Enter string: ");
-    scanf("%s", s);
+int main() {
+    char input[100];
+    printf("Input: ");
+    scanf("%s", input);
 
-    Result result = solve(s);
-    if (result.isValid) {
-        printf("Valid String\n");
+    if (checkString(input)) {
+        printf("Valid\n");
     } else {
-        printf("Not Valid: %s\n", result.reason);
+        printf("Invalid\n");
     }
 
     return 0;

@@ -1,51 +1,34 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct {
-    int isValid;
-    char reason[100];
-} Result;
-
-Result solve(char s[]) {
+int isValid(char s[]) {
     int n = strlen(s);
 
     if (n < 3 || s[0] != 'a') {
-        Result res = {0, "Invalid: String must start with 'a' and have at least 3 characters."};
-        return res;
+        return 0;
     }
 
     for (int i = 0; i < n; ++i) {
         if (s[i] != 'a' && s[i] != 'b') {
-            Result res = {0, "Invalid: String contains characters other than 'a' and 'b'."};
-            return res;
+            return 0;
         }
 
         if (s[i] == 'b' && i < n - 2) {
-            Result res = {0, "Invalid: 'b' found before the last two characters."};
-            return res;
+            return 0;
         }
     }
 
     if (s[n - 2] != 'b' || s[n - 1] != 'b') {
-        Result res = {0, "Invalid: String must end with 'bb'."};
-        return res;
+        return 0;
     }
 
-    int hasA = 0;
     for (int i = 0; i < n - 2; ++i) {
         if (s[i] == 'a') {
-            hasA = 1;
-            break;
+            return 1;
         }
     }
 
-    if (!hasA) {
-        Result res = {0, "Invalid: String must contain at least one 'a' before 'bb'."};
-        return res;
-    }
-
-    Result res = {1, "Valid String"};
-    return res;
+    return 0;
 }
 
 int main() {
@@ -53,8 +36,11 @@ int main() {
     printf("Enter string: ");
     scanf("%s", s);
 
-    Result result = solve(s);
-    printf("%s\n", result.reason);
+    if (isValid(s)) {
+        printf("Valid\n");
+    } else {
+        printf("Invalid\n");
+    }
 
     return 0;
 }

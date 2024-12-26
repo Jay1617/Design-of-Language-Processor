@@ -42,7 +42,6 @@ bool isValid(int noOfSymbol, string inputSymbols, int noOfState, int initialStat
 
     return acceptingStates.count(currentState);
 }
-
 int main() {
     int noOfSymbol, noOfState, initialState, noOfAcceptingStates;
     string inputSymbols, inputString;
@@ -75,3 +74,4 @@ int main() {
 
     return 0;
 }
+    
