@@ -10,8 +10,9 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "cl.exe",
-            "intelliSenseMode": "windows-msvc-x64"
+            "compilerPath": null,
+            "intelliSenseMode": "windows-msvc-x64",
+            "cppStandard": "c++23"
         }
     ],
     "version": 4

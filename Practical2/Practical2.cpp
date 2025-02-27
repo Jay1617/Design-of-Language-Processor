@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <map>
+#include<map>
 #include <set>
 using namespace std;
 
@@ -60,9 +60,9 @@ int main() {
     cin >> input;
 
     if (isValid(symbols, states, start, acceptStates, input)) {
-        cout << "Valid string." << endl;
+        cout << "Valid string" << endl;
     } else {
-        cout << "Invalid string." << endl;
+        cout << "Invalid string" << endl;
     }
 
     return 0;
