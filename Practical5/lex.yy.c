@@ -411,7 +411,11 @@ char *yytext;
 #define INITIAL 0
 #line 2 "Practical5.l"
 #include <stdio.h>
-#line 415 "lex.yy.c"
+#include <stdlib.h>
+#include <string.h>
+
+FILE *fp;
+#line 419 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -562,9 +566,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 13 "Practical5.l"
+#line 17 "Practical5.l"
 
-#line 568 "lex.yy.c"
+#line 572 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -649,55 +653,55 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "Practical5.l"
-{ printf("Keyword: %s\n", yytext); }
+#line 18 "Practical5.l"
+{ fprintf(fp, "Keyword: %s\n", yytext); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 15 "Practical5.l"
-{ printf("Identifier: %s\n", yytext); }
+#line 19 "Practical5.l"
+{ fprintf(fp, "Identifier: %s\n", yytext); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 16 "Practical5.l"
-{ printf("Constant: %s\n", yytext); }
+#line 20 "Practical5.l"
+{ fprintf(fp, "Constant: %s\n", yytext); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 17 "Practical5.l"
-{ printf("Operator: %s\n", yytext); }
+#line 21 "Practical5.l"
+{ fprintf(fp, "Operator: %s\n", yytext); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 18 "Practical5.l"
-{ printf("Punctuation: %s\n", yytext); }
+#line 22 "Practical5.l"
+{ fprintf(fp, "Punctuation: %s\n", yytext); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 19 "Practical5.l"
-{ printf("Comment: %s\n", yytext); }
+#line 23 "Practical5.l"
+{ fprintf(fp, "Comment: %s\n", yytext); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 20 "Practical5.l"
-{ printf("String: %s\n", yytext); }
+#line 24 "Practical5.l"
+{ fprintf(fp, "String: %s\n", yytext); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 21 "Practical5.l"
+#line 25 "Practical5.l"
 { /* Ignore whitespace */ }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 22 "Practical5.l"
-{ printf("Unknown: %s\n", yytext); }
+#line 26 "Practical5.l"
+{ fprintf(fp, "Unknown: %s\n", yytext); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "Practical5.l"
+#line 28 "Practical5.l"
 ECHO;
 	YY_BREAK
-#line 701 "lex.yy.c"
+#line 705 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1583,10 +1587,29 @@ int main()
 	return 0;
 	}
 #endif
-#line 24 "Practical5.l"
+#line 28 "Practical5.l"
+
 
 int main() {
+    FILE *inputFile = fopen("test.c", "r");
+    if (!inputFile) {
+        printf("Error: Unable to open test.c\n");
+        return 1;
+    }
+
+    fp = fopen("tokens.txt", "w");
+    if (!fp) {
+        printf("Error: Unable to create tokens.txt\n");
+        return 1;
+    }
+
+    yyin = inputFile;
     yylex();
+
+    fclose(inputFile);
+    fclose(fp);
+
+    printf("Lexical analysis completed. Check tokens.txt for output.\n");
     return 0;
 }
 

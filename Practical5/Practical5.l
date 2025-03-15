@@ -1,5 +1,9 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+FILE *fp;
 %}
 
 DIGIT      [0-9]
@@ -10,20 +14,39 @@ OPERATORS  "="|"+"|"-"|"*"|"/"|"<"|">"|"=="|"!="
 PUNCTUATION "[{}();,]"
 COMMENT    "//".*|"/*"(.|\n)*"*/"
 
-%%
-{KEYWORDS}    { printf("Keyword: %s\n", yytext); }
-{ID}          { printf("Identifier: %s\n", yytext); }
-{DIGIT}+      { printf("Constant: %s\n", yytext); }
-{OPERATORS}   { printf("Operator: %s\n", yytext); }
-{PUNCTUATION} { printf("Punctuation: %s\n", yytext); }
-{COMMENT}     { printf("Comment: %s\n", yytext); }
-\"(\\.|[^\\"])*\" { printf("String: %s\n", yytext); }
+%%  
+{KEYWORDS}    { fprintf(fp, "Keyword: %s\n", yytext); }
+{ID}          { fprintf(fp, "Identifier: %s\n", yytext); }
+{DIGIT}+      { fprintf(fp, "Constant: %s\n", yytext); }
+{OPERATORS}   { fprintf(fp, "Operator: %s\n", yytext); }
+{PUNCTUATION} { fprintf(fp, "Punctuation: %s\n", yytext); }
+{COMMENT}     { fprintf(fp, "Comment: %s\n", yytext); }
+\"(\\.|[^\\"])*\" { fprintf(fp, "String: %s\n", yytext); }
 [ \t\n]+      { /* Ignore whitespace */ }
-.             { printf("Unknown: %s\n", yytext); }
+.             { fprintf(fp, "Unknown: %s\n", yytext); }
 
 %%
+
 int main() {
+    FILE *inputFile = fopen("test.c", "r");
+    if (!inputFile) {
+        printf("Error: Unable to open test.c\n");
+        return 1;
+    }
+
+    fp = fopen("tokens.txt", "w");
+    if (!fp) {
+        printf("Error: Unable to create tokens.txt\n");
+        return 1;
+    }
+
+    yyin = inputFile;
     yylex();
+
+    fclose(inputFile);
+    fclose(fp);
+
+    printf("Lexical analysis completed. Check tokens.txt for output.\n");
     return 0;
 }
 
