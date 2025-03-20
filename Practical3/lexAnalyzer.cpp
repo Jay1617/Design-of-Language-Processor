@@ -124,8 +124,8 @@ void tokenize(const string &code) {
 
 int main() {
     // ifstream file("testCase1.c"); 
-    ifstream file("testCase2.c"); 
-    // ifstream file("testCase3.c"); 
+    // ifstream file("testCase2.c"); 
+    ifstream file("testCase3.c"); 
     if (!file) {
         cerr << "Error: Could not open file!" << endl;
         return 1;

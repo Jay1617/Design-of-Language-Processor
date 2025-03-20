@@ -1,4 +1,3 @@
-// function prototype
 void add(int, int);
 void main()
 {

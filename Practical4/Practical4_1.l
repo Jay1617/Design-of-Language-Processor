@@ -3,14 +3,15 @@
 %}
 
 %%
-[0-9]+  { printf("%s\n", yytext); }  
-.       { }
-
+[0-9]+    { printf("%s\n", yytext); }  
+\n        { return 0; } 
 %%
+
 int main() {
-    yylex();
+    yylex(); 
     return 0;
 }
+
 int yywrap() {
-    return 1;
+    return 1; 
 }

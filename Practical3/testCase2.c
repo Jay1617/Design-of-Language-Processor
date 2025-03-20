@@ -1,4 +1,3 @@
-// user defined data type
 struct student
 {
     int id;
